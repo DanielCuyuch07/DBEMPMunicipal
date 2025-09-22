@@ -1,0 +1,35 @@
+USE DBEMPMunicipal 
+GO
+
+SET ANSI_NULLS ON; 
+GO
+
+CREATE PROCEDURE SP_ADMComunidad_INS(
+	 @nombreColonia	NVARCHAR(80),
+	 @municipioId INT
+)
+AS 
+BEGIN 
+
+	SET NOCOUNT ON; 
+
+	IF NOT EXISTS (SELECT 1 FROM ADM_Comunidad WHERE municipioId = @municipioId )
+	BEGIN
+		RAISERROR('EL MUNICIPIO NO  EXISTE EN BASE DE DATOS. INTENTELO DE NUEVO.', 11, 1);
+		RETURN 1;
+	END
+
+	IF EXISTS (SELECT 1 FROM ADM_Comunidad WHERE nombreColonia = @nombreColonia )
+	BEGIN
+		RAISERROR('LA COLONIA YA EXISTE EN BASE DE DATOS. INTENTELO DE NUEVO.', 11, 1);
+		RETURN 1;
+	END
+
+    BEGIN TRAN;
+		INSERT INTO ADM_Comunidad(nombreColonia, municipioId)
+        VALUES (@nombreColonia, @municipioId);
+	COMMIT TRAN;
+
+    RETURN 0;
+
+END 
