@@ -1,0 +1,21 @@
+USE DBEMPMunicipal; 
+GO
+
+SET ANSI_NULLS ON; 
+GO
+
+
+CREATE PROCEDURE SP_FAC_Tarifa_INS(
+	@nombre NVARCHAR(30)
+)
+AS
+BEGIN 
+
+	SET NOCOUNT ON; 
+
+	INSERT INTO FAC_Tarifa(nombre)
+	VALUES(@nombre)
+
+	return 0; 
+
+END 
